@@ -6,10 +6,10 @@ mongoose.set('strictQuery', false);
 
 const mongoDB = process.env.MONGODB_URI;
 
-main().catch((err) => console.log(err));
-
-async function main() {
+async function connection() {
   await mongoose.connect(mongoDB);
 }
+
+connection().catch((err) => console.log(err));
 
 module.exports = connection;
