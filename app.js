@@ -3,6 +3,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const passport = require('passport');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
+const connection = require('./config/database');
 
 require('dotenv').config();
 
@@ -20,6 +25,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const sessionStore = new MongoStore({ mongooseConnection: connection, collection: 'sessions' });
+
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStore,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24,
+  },
+}));
+
+app.use(passport.session());
+// require passport module
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
