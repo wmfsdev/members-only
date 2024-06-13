@@ -26,13 +26,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const sessionStore = new MongoStore({ mongooseConnection: connection, collection: 'sessions' });
+// const sessionStore = new MongoStore({ mongoUrl: connection, collectionName: 'sessions' });
 
 app.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: true,
-  store: sessionStore,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    dbName: 'sessions',
+  }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24,
   },
@@ -40,6 +43,7 @@ app.use(session({
 
 app.use(passport.session());
 // require passport module
+require('./config/passport');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
