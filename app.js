@@ -12,7 +12,7 @@ const connection = require('./config/database');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const membersRouter = require('./routes/members');
 
 const app = express();
 
@@ -25,8 +25,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// const sessionStore = new MongoStore({ mongoUrl: connection, collectionName: 'sessions' });
 
 app.use(session({
   secret: 'secret',
@@ -42,11 +40,10 @@ app.use(session({
 }));
 
 app.use(passport.session());
-// require passport module
 require('./config/passport');
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/members', membersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
