@@ -12,7 +12,7 @@ const connection = require('./config/database');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const membersRouter = require('./routes/members');
+const usersRouter = require('./routes/users');
 
 const app = express();
 
@@ -43,7 +43,7 @@ app.use(passport.session());
 require('./config/passport');
 
 app.use('/', indexRouter);
-app.use('/members', membersRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

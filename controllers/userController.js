@@ -1,23 +1,29 @@
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
-const Member = require('../models/member');
+const User = require('../models/user');
+const passport = require('passport')
 
-exports.member_create_get = asyncHandler(async (req, res, next) => {
+exports.user_create_get = asyncHandler(async (req, res, next) => {
   res.render('sign_up', {
     title: 'Sign-up Form',
   });
 });
 
-exports.member_signin_get = asyncHandler(async (req, res, next) => {
+exports.user_signin_get = asyncHandler(async (req, res, next) => {
   res.render('sign_in', {
-
     title: 'Sign-in',
-
   });
 });
 
-exports.member_create_post = [
+exports.user_signin_post = passport.authenticate("local", {
+  successRedirect: '/',
+  failureRedirect: '/',
+  failureMessage: true,
+})
+
+
+exports.user_create_post = [
 
   body('username')
     .trim()
@@ -25,11 +31,8 @@ exports.member_create_post = [
     .escape()
     .withMessage('Please enter a username'),
   body('password')
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body('password-confirm')
-    .escape()
     .custom((value, { req }) => value === req.body.password)
     .withMessage('Passwords must match'),
 
@@ -37,7 +40,7 @@ exports.member_create_post = [
     const errors = validationResult(req);
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const member = new Member({
+    const user = new User({
       username: req.body.username,
       password: hashedPassword,
     });
@@ -46,12 +49,12 @@ exports.member_create_post = [
       // there are errors
       res.render('sign_up', {
         title: 'Sign-up Form',
-        username: member.username,
+        username: user.username,
         errors: errors.array(),
       });
     } else {
-      await member.save();
-      res.redirect('/members/sign-in');
+      await user.save();
+      res.redirect('/users/sign-in');
     }
   }),
 
