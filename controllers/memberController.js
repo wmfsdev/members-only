@@ -9,6 +9,14 @@ exports.member_create_get = asyncHandler(async (req, res, next) => {
   });
 });
 
+exports.member_signin_get = asyncHandler(async (req, res, next) => {
+  res.render('sign_in', {
+
+    title: 'Sign-in',
+
+  });
+});
+
 exports.member_create_post = [
 
   body('username')
