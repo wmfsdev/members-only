@@ -23,13 +23,23 @@ exports.user_signin_post = passport.authenticate("local", {
   failureRedirect: '/',
   failureMessage: true,
 })
-// ----
 
+// MEMBERSHIP STATUS -- GET
 exports.user_member_get = asyncHandler(async(req, res, next) => {
   res.render('user_member', {
     title: "Become a Member",
   })
 })
+
+// MEMBERSHIP STATUS -- POST
+exports.user_member_post =  asyncHandler( async(req, res, next) => {
+  const user = { _id: req.user.id }
+  const update = { member: true }
+
+  await User.findOneAndUpdate(user, update)
+  res.redirect('/')
+})
+
 
 exports.user_create_post = [
 
