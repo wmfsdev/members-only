@@ -1,5 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  if (user.member === false)
+    h1= `Welcome ${username}!`
+    p Now you can post your own messages, but if you really want to experience the perks of a full membership 
+      a(href="/users/membership") apply now!
+  else
+    h1 Welcome!
+    p To begin experiencing all the benefits of membership first sign-up then sign-in.
