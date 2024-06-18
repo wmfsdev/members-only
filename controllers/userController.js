@@ -10,18 +10,26 @@ exports.user_create_get = asyncHandler(async (req, res, next) => {
   });
 });
 
+// SIGN-IN -- GET
 exports.user_signin_get = asyncHandler(async (req, res, next) => {
   res.render('sign_in', {
     title: 'Sign-in',
   });
 });
 
+// SIGN-IN -- POST
 exports.user_signin_post = passport.authenticate("local", {
   successRedirect: '/',
   failureRedirect: '/',
   failureMessage: true,
 })
+// ----
 
+exports.user_member_get = asyncHandler(async(req, res, next) => {
+  res.render('user_member', {
+    title: "Become a Member",
+  })
+})
 
 exports.user_create_post = [
 
