@@ -20,4 +20,6 @@ router.post('/sign-in', user_controller.user_signin_post)
 
 router.get('/membership', user_controller.user_member_get)
 
+router.post('/membership', user_controller.user_member_post)
+
 module.exports = router;
