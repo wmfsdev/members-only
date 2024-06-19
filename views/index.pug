@@ -1,10 +1,42 @@
 extends layout
 
 block content
-  if (user.member === false)
+  if (user === undefined)
+    h1 Welcome!
+    p To begin experiencing all the benefits of membership first sign-up then sign-in.
+      div.messages-display
+        each item in messages
+          div.messages
+            p= item.message
+  else if (user.member === true)
+    h1= `Welcome ${username}!`
+    p Now you can post your own messages as well as see who posted what messages and when.
+    form(method="POST")
+      div.message-form
+        label(for='title') Title: 
+        input(class="title" type="text" name="title")
+        label(for='message') Message:
+        textarea(class="textarea" name='message' rows="5" cols="10")
+      button(type="submit") Post Message
+    div.messages-display
+      each item in messages
+        div.messages
+          p= item.message
+          p(class="author")= item.user.username
+          p(class="timestamp")= item.time
+  else
     h1= `Welcome ${username}!`
     p Now you can post your own messages, but if you really want to experience the perks of a full membership 
       a(href="/users/membership") apply now!
-  else
-    h1 Welcome!
-    p To begin experiencing all the benefits of membership first sign-up then sign-in.
+    form(method="POST")
+      div.message-form
+        label(for='title') Title: 
+        input(class="" type="text" name="title")
+        label(for='message') Message:
+        textarea(class="textarea" name='message' rows="5" cols="10")
+      button(type="submit") Post Message
+    div.messages-display
+      each item in messages
+        div.messages
+          p= item.message
+          
