@@ -2,18 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
+const index_controller = require('../controllers/indexController');
 
-  if (req.user) {
-    const test = req.user
-    console.log(test)
-  }
+router.get('/', index_controller.index)
 
-  res.render('index', { 
-    user: req.user,
-    username: req.user.username,
-  });
-});
+router.post('/', index_controller.index_post)
 
 module.exports = router;
