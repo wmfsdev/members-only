@@ -1,0 +1,10 @@
+extends layout 
+
+block content 
+    h2= title
+    p You will be able to see exactly who posted what messages and when!
+    form(method="POST")
+        div.member-status
+            input(type="checkbox" name="member")
+            p I hereby agree to some perfectly innocent T&Cs
+        button(type="submit") Agree
