@@ -41,6 +41,18 @@ exports.user_member_post =  asyncHandler( async(req, res, next) => {
 })
 
 
+exports.user_admin_get = asyncHandler( async(req, res, next) => {
+  res.render('user_admin', {
+    title: "admin"
+  })
+})
+
+
+
+exports.user_admin_post = [
+
+]
+
 exports.user_create_post = [
 
   body('username')
