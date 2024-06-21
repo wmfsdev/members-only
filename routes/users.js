@@ -22,4 +22,10 @@ router.get('/membership', user_controller.user_member_get)
 
 router.post('/membership', user_controller.user_member_post)
 
+// admin
+
+router.get('/admin', user_controller.user_admin_get)
+
+router.post('/admin', user_controller.user_admin_post)
+
 module.exports = router;
