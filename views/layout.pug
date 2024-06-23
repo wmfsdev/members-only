@@ -7,6 +7,10 @@ html
     div(class='header')
       h1 MEMBERS CLUB
       div(class='nav-bar')
-        a(href='/users/sign-up') SIGN-UP
         a(href='/users/sign-in') SIGN-IN
+        if (user === undefined)
+          a(href='/users/sign-up') SIGN-UP
+        else 
+          a(href='/users/logout') LOG-OUT
+        
     block content

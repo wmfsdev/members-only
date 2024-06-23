@@ -7,6 +7,7 @@ const passport = require('passport')
 exports.user_create_get = asyncHandler(async (req, res, next) => {
   res.render('sign_up', {
     title: 'Sign-up Form',
+    user: req.user,
   });
 });
 
@@ -14,6 +15,7 @@ exports.user_create_get = asyncHandler(async (req, res, next) => {
 exports.user_signin_get = asyncHandler(async (req, res, next) => {
   res.render('sign_in', {
     title: 'Sign-in',
+    user: req.user,
   });
 });
 
@@ -24,10 +26,22 @@ exports.user_signin_post = passport.authenticate("local", {
   failureMessage: true,
 })
 
+// LOG-OUT
+exports.user_logout_get = asyncHandler(async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+
 // MEMBERSHIP STATUS -- GET
 exports.user_member_get = asyncHandler(async(req, res, next) => {
   res.render('user_member', {
     title: "Become a Member",
+    user: req.user,
   })
 })
 
@@ -43,7 +57,8 @@ exports.user_member_post =  asyncHandler( async(req, res, next) => {
 // ADMIN STATUS
 exports.user_admin_get = asyncHandler( async(req, res, next) => {
   res.render('user_admin', {
-    title: "Admin"
+    title: "Admin",
+    user: req.user,
   })
 })
 
@@ -61,6 +76,7 @@ exports.user_admin_post = [
 
       res.render('user_admin', {
         title: "Admin",
+        user: user.req,
         errors: errors.array(),
       })
     } else if (process.env.adminPassword === req.body.adminpass) {
@@ -74,6 +90,7 @@ exports.user_admin_post = [
     
       res.render('user_admin', {
         title: "Admin",
+        user: req.user,
         errors: [{ msg: "Incorrect Password" }]
       })
     }
@@ -109,6 +126,7 @@ exports.user_create_post = [
       res.render('sign_up', {
         title: 'Sign-up Form',
         username: user.username,
+        user: req.user,
         errors: errors.array(),
       });
     } else {

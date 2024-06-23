@@ -16,6 +16,10 @@ router.get('/sign-in', user_controller.user_signin_get);
 
 router.post('/sign-in', user_controller.user_signin_post)
 
+// user - log-out
+
+router.get('/logout', user_controller.user_logout_get)
+
 // user - Membership
 
 router.get('/membership', user_controller.user_member_get)
