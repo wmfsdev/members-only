@@ -19,7 +19,16 @@ exports.index = asyncHandler( async(req, res, next) => {
   
 exports.index_post = [
 
-	// validation
+	body('title')
+		.trim()
+		.isLength({ min: 1 })
+		.escape()
+		.withMessage('Title too short'),
+	body('message')
+		.trim()
+		.isLength({ min: 5 })
+		.escape()
+		.withMessage("Message too short"),
 
 	asyncHandler( async(req, res, next) => {
 			
