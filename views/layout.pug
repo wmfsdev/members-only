@@ -5,7 +5,8 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div(class='header')
-      h1 MEMBERS CLUB
+      h1 
+        a(href="/") MEMBERS CLUB
       div(class='nav-bar')
         a(href='/users/sign-in') SIGN-IN
         if (user === undefined)
