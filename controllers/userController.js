@@ -40,16 +40,45 @@ exports.user_member_post =  asyncHandler( async(req, res, next) => {
   res.redirect('/')
 })
 
-
+// ADMIN STATUS
 exports.user_admin_get = asyncHandler( async(req, res, next) => {
   res.render('user_admin', {
-    title: "admin"
+    title: "Admin"
   })
 })
 
-
-
 exports.user_admin_post = [
+
+  body('adminpass')
+    .isLength({ min: 2 })
+    .withMessage("too short"),
+
+  asyncHandler( async(req, res, next) => {
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+
+      res.render('user_admin', {
+        title: "Admin",
+        errors: errors.array(),
+      })
+    } else if (process.env.adminPassword === req.body.adminpass) {
+    
+      const user = { _id: req.user.id }
+      const update = { admin: true }
+
+      await User.findOneAndUpdate(user, update)
+      res.redirect('/')
+    } else {
+    
+      res.render('user_admin', {
+        title: "Admin",
+        errors: [{ msg: "Incorrect Password" }]
+      })
+    }
+
+  })
 
 ]
 
