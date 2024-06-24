@@ -8,6 +8,8 @@ block content
         each item in messages
           div.messages
             p= item.message
+            div.details  
+              p MEMBER: anonymous
   else if (user.member === true)
     h1= `Welcome ${username}!`
     p Now you can post your own messages as well as see who posted what messages and when. If you are interested in becoming an Admin 
@@ -22,9 +24,14 @@ block content
     div.messages-display
       each item in messages
         div.messages
-          p= item.message
+          div.message-body
+            p= item.message
+            if (admin)
+              form(method="POST" action=`/delete/${item._id}`)
+                input(type="hidden" class="hiddenid" value=item._id)
+                button(type="submit") DELETE
           div.details
-            p(class="author")= `member: ${item.user.username}`
+            p(class="author")= `MEMBER: ${item.user.username}`
             p(class="timestamp")= item.cleanDate
   else
     h1= `Welcome ${username}!`
@@ -43,7 +50,7 @@ block content
           p= item.message
           if (user._id.toString() === item.user._id.toString())
             div.details
-              p= `member: ${item.user.username} (you)`
+              p= `MEMBER: ${item.user.username} (you)`
               p= item.cleanDate
           else 
-            p member: anonymous 
+            p MEMBER: anonymous 
