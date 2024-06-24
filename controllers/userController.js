@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
+const passport = require('passport');
 const User = require('../models/user');
-const passport = require('passport')
 
 exports.user_create_get = asyncHandler(async (req, res, next) => {
   res.render('sign_up', {
@@ -20,11 +20,11 @@ exports.user_signin_get = asyncHandler(async (req, res, next) => {
 });
 
 // SIGN-IN -- POST
-exports.user_signin_post = passport.authenticate("local", {
+exports.user_signin_post = passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/',
   failureMessage: true,
-})
+});
 
 // LOG-OUT
 exports.user_logout_get = asyncHandler(async (req, res, next) => {
@@ -32,72 +32,67 @@ exports.user_logout_get = asyncHandler(async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.redirect('/');
   });
 });
 
-
 // MEMBERSHIP STATUS -- GET
-exports.user_member_get = asyncHandler(async(req, res, next) => {
+exports.user_member_get = asyncHandler(async (req, res, next) => {
   res.render('user_member', {
-    title: "Become a Member",
+    title: 'Become a Member',
     user: req.user,
-  })
-})
+  });
+});
 
 // MEMBERSHIP STATUS -- POST
-exports.user_member_post =  asyncHandler( async(req, res, next) => {
-  const user = { _id: req.user.id }
-  const update = { member: true }
+exports.user_member_post = asyncHandler(async (req, res, next) => {
+  const user = { _id: req.user.id };
+  const update = { member: true };
 
-  await User.findOneAndUpdate(user, update)
-  res.redirect('/')
-})
+  await User.findOneAndUpdate(user, update);
+  res.redirect('/');
+});
 
 // ADMIN STATUS
-exports.user_admin_get = asyncHandler( async(req, res, next) => {
+exports.user_admin_get = asyncHandler(async (req, res, next) => {
   res.render('user_admin', {
-    title: "Administrator Status",
+    title: 'Administrator Status',
     user: req.user,
-  })
-})
+    admin: req.user.admin || null
+  });
+});
 
 exports.user_admin_post = [
 
   body('adminpass')
     .isLength({ min: 2 })
-    .withMessage("too short"),
+    .withMessage('too short'),
 
-  asyncHandler( async(req, res, next) => {
-
-    const errors = validationResult(req)
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-
       res.render('user_admin', {
-        title: "Admin",
-        user: user.req,
-        errors: errors.array(),
-      })
-    } else if (process.env.adminPassword === req.body.adminpass) {
-    
-      const user = { _id: req.user.id }
-      const update = { admin: true }
-
-      await User.findOneAndUpdate(user, update)
-      res.redirect('/')
-    } else {
-    
-      res.render('user_admin', {
-        title: "Admin",
+        title: 'Admin',
         user: req.user,
-        errors: [{ msg: "Incorrect Password" }]
-      })
+        errors: errors.array(),
+      });
+    } else if (process.env.adminPassword === req.body.adminpass) {
+      const user = { _id: req.user.id };
+      const update = { admin: true };
+
+      await User.findOneAndUpdate(user, update);
+      res.redirect('/');
+    } else {
+      res.render('user_admin', {
+        title: 'Admin',
+        user: req.user,
+        errors: [{ msg: 'Incorrect Password' }],
+      });
     }
+  }),
 
-  })
-
-]
+];
 
 exports.user_create_post = [
 
