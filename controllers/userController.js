@@ -57,7 +57,7 @@ exports.user_member_post =  asyncHandler( async(req, res, next) => {
 // ADMIN STATUS
 exports.user_admin_get = asyncHandler( async(req, res, next) => {
   res.render('user_admin', {
-    title: "Admin",
+    title: "Administrator Status",
     user: req.user,
   })
 })
