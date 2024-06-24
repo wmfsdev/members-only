@@ -1,11 +1,16 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgb(130, 130, 130);
+  background-color: rgb(232, 232, 232);
 }
 
 a {
-  color: #00B7FF;
+  color: #47b483;
+  text-decoration: none;
+}
+
+.header h1 {
+  font-size: 2.5rem;
 }
 
 .form-group {
@@ -19,7 +24,7 @@ a {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 }
 
 .nav-bar {
@@ -39,10 +44,21 @@ a {
   flex-direction: column;
   gap: 3px;
   margin-bottom: 10px;
+  margin-top: 30px;
 }
 
 .messages-display {
   margin-top: 50px;
+}
+
+.message-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-body button {
+  height: fit-content;
 }
 
 .messages {
