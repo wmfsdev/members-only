@@ -5,10 +5,6 @@ block content
     if (admin === null)
       p To become an Admin please enter the administrator's password below.
       form(method='POST')
-        div.form-group
-          label(for='adminpass') Password:
-          input#adminpass(type='password' name='adminpass' required="true")
-
         button.btn.btn-primary(type='submit') Submit
     else
       p Your are already an Administrator. Feel free to return to the 
